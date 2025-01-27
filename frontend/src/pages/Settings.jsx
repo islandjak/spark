@@ -52,7 +52,10 @@ const Settings = () => {
             <form onSubmit={handlePasswordSubmit}>
               <div className="space-y-4">
                 <div>
-                  <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="currentPassword"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Current Password
                   </label>
                   <input
@@ -82,7 +85,10 @@ const Settings = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700">
+                  <label
+                    htmlFor="confirmPassword"
+                    className="block text-sm font-medium text-gray-700"
+                  >
                     Confirm New Password
                   </label>
                   <input
@@ -141,4 +147,4 @@ const Settings = () => {
   );
 };
 
-export default Settings; 
+export default Settings;

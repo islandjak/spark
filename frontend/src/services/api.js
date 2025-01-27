@@ -1,13 +1,13 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
+  baseURL: 'http://localhost:5000/api',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Add a request interceptor to include the token
+// Add request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -21,47 +21,40 @@ api.interceptors.request.use(
   }
 );
 
-// Add a response interceptor to handle errors
+// Add response interceptor to handle errors
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response) {
-      // Handle specific error status codes
-      switch (error.response.status) {
-        case 401:
-          // Handle unauthorized access
-          localStorage.removeItem('token');
-          window.location.href = '/login';
-          break;
-        case 403:
-          // Handle forbidden access
-          break;
-        case 404:
-          // Handle not found
-          break;
-        case 500:
-          // Handle server error
-          break;
-        default:
-          break;
-      }
+    if (error.response?.status === 401) {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/login';
     }
     return Promise.reject(error);
   }
 );
 
-// Auth API endpoints
+// Auth services
 export const authAPI = {
   login: (credentials) => api.post('/auth/login', credentials),
-  signup: (userData) => api.post('/auth/signup', userData),
-  logout: () => api.post('/auth/logout'),
+  register: (userData) => api.post('/auth/register', userData),
   getProfile: () => api.get('/auth/profile'),
 };
 
-// Example of other API endpoints
+// User services
 export const userAPI = {
   updateProfile: (data) => api.put('/users/profile', data),
   changePassword: (data) => api.put('/users/password', data),
+  deleteAccount: () => api.delete('/users/account'),
 };
 
-export default api; 
+// Website services
+export const websiteAPI = {
+  createWebsite: (data) => api.post('/websites', data),
+  getWebsites: () => api.get('/websites'),
+  getWebsite: (id) => api.get(`/websites/${id}`),
+  updateWebsite: (id, data) => api.put(`/websites/${id}`, data),
+  deleteWebsite: (id) => api.delete(`/websites/${id}`),
+};
+
+export default api;

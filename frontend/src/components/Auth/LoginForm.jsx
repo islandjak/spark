@@ -1,12 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { login, selectAuthLoading, selectAuthError } from '../../store/slices/authSlice';
+import { useNavigate } from 'react-router-dom';
+import {
+  login,
+  selectAuthLoading,
+  selectAuthError,
+  selectIsAuthenticated,
+} from '../../store/slices/authSlice';
 
 const LoginForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const loading = useSelector(selectAuthLoading);
   const error = useSelector(selectAuthError);
+  const isAuthenticated = useSelector(selectIsAuthenticated);
   const [credentials, setCredentials] = useState({ email: '', password: '' });
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/portal/projects');
+    }
+  }, [isAuthenticated, navigate]);
 
   const handleChange = (e) => {
     setCredentials({
@@ -24,7 +38,9 @@ const LoginForm = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">Sign in to your account</h2>
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Sign in to your account
+          </h2>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           <div className="rounded-md shadow-sm -space-y-px">
@@ -69,4 +85,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm; 
+export default LoginForm;

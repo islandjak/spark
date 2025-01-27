@@ -2,68 +2,84 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { store } from './store';
+import Header from './components/Header';
 import Home from './pages/Home';
-import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Header from './components/Header';
+import PortalLayout from './layouts/PortalLayout';
+import Projects from './pages/portal/Projects';
+import New from './pages/portal/New';
 import { useSelector } from 'react-redux';
 
-// Protected Route wrapper component
-const ProtectedRoute = ({ children }) => {
+const RequireAuth = ({ children }) => {
   const { isAuthenticated } = useSelector((state) => state.auth);
-  return isAuthenticated ? children : <Navigate to="/login" />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
 };
 
-// Public Route wrapper component (redirects if authenticated)
-const PublicRoute = ({ children }) => {
+const RequireUnauth = ({ children }) => {
   const { isAuthenticated } = useSelector((state) => state.auth);
-  return !isAuthenticated ? children : <Navigate to="/dashboard" />;
-};
-
-const AppRoutes = () => {
-  return (
-    <>
-      <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/dashboard"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            <PublicRoute>
-              <Signup />
-            </PublicRoute>
-          }
-        />
-      </Routes>
-    </>
-  );
+  if (isAuthenticated) {
+    return <Navigate to="/portal/projects" replace />;
+  }
+  return children;
 };
 
 function App() {
+  const { isAuthenticated } = useSelector((state) => state.auth);
+
   return (
     <Provider store={store}>
       <Router>
-        <AppRoutes />
+        {!isAuthenticated && <Header />}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          
+          {/* Auth routes */}
+          <Route
+            path="/login"
+            element={
+              <RequireUnauth>
+                <Login />
+              </RequireUnauth>
+            }
+          />
+          <Route
+            path="/signup"
+            element={
+              <RequireUnauth>
+                <Signup />
+              </RequireUnauth>
+            }
+          />
+
+          {/* Portal routes */}
+          <Route
+            path="/portal"
+            element={
+              <RequireAuth>
+                <PortalLayout />
+              </RequireAuth>
+            }
+          >
+            <Route index element={<Navigate to="/portal/projects" replace />} />
+            <Route path="projects" element={<Projects />} />
+            <Route path="new" element={<New />} />
+            <Route path="settings" element={<div>Settings Page (Coming Soon)</div>} />
+            <Route path="billing" element={<div>Billing Page (Coming Soon)</div>} />
+          </Route>
+
+          {/* Redirects */}
+          <Route path="/dashboard" element={<Navigate to="/portal/projects" replace />} />
+          
+          {/* Catch all */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </Router>
     </Provider>
   );
 }
 
-export default App; 
+export default App;

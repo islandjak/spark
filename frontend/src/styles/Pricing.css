@@ -1,0 +1,228 @@
+.pricing-page {
+  padding-top: 4rem;
+}
+
+.pricing-hero {
+  background: linear-gradient(to bottom, #ffffff, #f8fafc);
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.pricing-hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.pricing-hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #0E1525;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.pricing-hero p {
+  font-size: 1.25rem;
+  color: #4B5563;
+  margin-bottom: 2rem;
+}
+
+.pricing-grid-section {
+  padding: 4rem 2rem;
+  background: white;
+}
+
+.pricing-grid {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.pricing-card {
+  background: white;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pricing-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.pricing-card.featured {
+  border: 2px solid #0E1525;
+  transform: scale(1.05);
+}
+
+.pricing-card.featured:hover {
+  transform: scale(1.05) translateY(-4px);
+}
+
+.pricing-card-header {
+  padding: 2rem;
+  text-align: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.pricing-card-header h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #0E1525;
+}
+
+.price {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #0E1525;
+  margin-bottom: 1rem;
+}
+
+.currency {
+  font-size: 1.5rem;
+  vertical-align: super;
+}
+
+.period {
+  font-size: 1rem;
+  color: #4B5563;
+  font-weight: 400;
+}
+
+.pricing-card-header p {
+  color: #4B5563;
+  font-size: 1rem;
+}
+
+.pricing-features {
+  list-style: none;
+  padding: 2rem;
+  margin: 0;
+}
+
+.pricing-features li {
+  margin-bottom: 1rem;
+  color: #4B5563;
+  display: flex;
+  align-items: center;
+}
+
+.pricing-features li:last-child {
+  margin-bottom: 0;
+}
+
+.pricing-button {
+  display: block;
+  text-align: center;
+  padding: 1rem 2rem;
+  margin: 0 2rem 2rem;
+  background: transparent;
+  color: #0E1525;
+  border: 1px solid #0E1525;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.pricing-button:hover {
+  background: rgba(14, 21, 37, 0.05);
+}
+
+.pricing-button.featured {
+  background: #0E1525;
+  color: white;
+}
+
+.pricing-button.featured:hover {
+  background: #1a2333;
+}
+
+.pricing-faq {
+  padding: 4rem 2rem;
+  background: #f8fafc;
+}
+
+.pricing-faq h2 {
+  text-align: center;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 3rem;
+  color: #0E1525;
+}
+
+.faq-grid {
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+}
+
+.faq-item {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.faq-item h4 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #0E1525;
+}
+
+.faq-item p {
+  color: #4B5563;
+  line-height: 1.5;
+}
+
+.pricing-cta {
+  padding: 6rem 2rem;
+  text-align: center;
+  background: white;
+}
+
+.pricing-cta h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #0E1525;
+}
+
+.pricing-cta p {
+  font-size: 1.25rem;
+  color: #4B5563;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .pricing-hero h1 {
+    font-size: 2.5rem;
+  }
+  
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .pricing-card.featured {
+    transform: none;
+  }
+  
+  .pricing-card.featured:hover {
+    transform: translateY(-4px);
+  }
+  
+  .faq-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+  }
+} 

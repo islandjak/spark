@@ -5,9 +5,9 @@ module.exports = {
     es2021: true,
   },
   extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:prettier/recommended',
+    'react-app',
+    'react-app/jest',
+    'plugin:prettier/recommended'
   ],
   parserOptions: {
     ecmaFeatures: {
@@ -16,8 +16,18 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: 'module',
   },
-  plugins: ['react'],
+  plugins: ['prettier'],
   rules: {
-    // Customize your ESLint rules here
+    'prettier/prettier': ['error', {
+      endOfLine: 'auto',
+      singleQuote: true,
+      trailingComma: 'es5',
+      semi: true,
+      tabWidth: 2,
+      printWidth: 100,
+      bracketSpacing: true,
+      jsxSingleQuote: false,
+      bracketSameLine: false
+    }]
   },
 }; 

@@ -1,19 +1,30 @@
-const Website = require('../models/website');
+const { Website } = require('../models');
 
 // Create a new website
-const createWebsite = async (req, res, next) => {
+const createWebsite = async (req, res) => {
   try {
     const { name, url, description } = req.body;
+    const userId = req.user.id;
+
+    // URL validation
+    const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+    if (!urlRegex.test(url)) {
+      return res.status(400).json({ error: 'Invalid URL format' });
+    }
+
     const website = await Website.create({
       name,
       url,
       description,
-      userId: req.user.id,
+      userId
     });
 
     res.status(201).json({ website });
   } catch (error) {
-    next(error);
+    if (error.name === 'SequelizeValidationError') {
+      return res.status(400).json({ error: error.message });
+    }
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 

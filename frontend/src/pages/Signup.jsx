@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { signup, selectAuthLoading, selectAuthError } from '../store/slices/authSlice';
+import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { register } from '../store/slices/authSlice';
+import '../styles/Auth.css';
 
 const Signup = () => {
-  const dispatch = useDispatch();
-  const loading = useSelector(selectAuthLoading);
-  const error = useSelector(selectAuthError);
   const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
     email: '',
     password: '',
-    confirmPassword: '',
   });
-  const [passwordError, setPasswordError] = useState(null);
+  const [error, setError] = useState('');
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({
@@ -22,78 +24,133 @@ const Signup = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setPasswordError(null);
-
-    if (formData.password !== formData.confirmPassword) {
-      setPasswordError("Passwords don't match");
-      return;
+    try {
+      await dispatch(register(formData)).unwrap();
+      navigate('/dashboard');
+    } catch (err) {
+      setError(err.message || 'Failed to create account');
     }
-
-    const { confirmPassword, ...signupData } = formData;
-    dispatch(signup(signupData));
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Create your account
-          </h2>
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
+    <div className="auth-container">
+      <div className="auth-content">
+        <div className="auth-left">
+          <div className="auth-header">
+            <div className="logo-container">
+              <img src="/spark.png" alt="Spark" className="auth-logo" />
+              <h1>Join Spark</h1>
+            </div>
+            <p>Create beautiful websites without writing code</p>
+          </div>
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-group">
+              <label htmlFor="firstName">First Name</label>
               <input
-                name="email"
-                type="email"
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={formData.firstName}
+                onChange={handleChange}
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Email address"
+                autoFocus
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={formData.lastName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
                 value={formData.email}
                 onChange={handleChange}
+                required
               />
             </div>
-            <div>
+            <div className="form-group">
+              <label htmlFor="password">Password</label>
               <input
-                name="password"
                 type="password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
+                id="password"
+                name="password"
                 value={formData.password}
                 onChange={handleChange}
-              />
-            </div>
-            <div>
-              <input
-                name="confirmPassword"
-                type="password"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Confirm password"
-                value={formData.confirmPassword}
-                onChange={handleChange}
+                minLength="8"
               />
             </div>
-          </div>
-
-          {passwordError && <div className="text-red-500 text-sm">{passwordError}</div>}
-          {error && <div className="text-red-500 text-sm">{error}</div>}
-
-          <div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
-            >
-              {loading ? 'Creating account...' : 'Sign up'}
+            {error && <div className="auth-error">{error}</div>}
+            <button type="submit" className="auth-button primary">
+              Create Account
             </button>
+            <div className="auth-divider">
+              <span>or continue with</span>
+            </div>
+            <div className="social-buttons">
+              <button type="button" className="social-button">
+                <img src="/google.svg" alt="" className="social-icon" />
+                Google
+              </button>
+              <button type="button" className="social-button">
+                <img src="/github.svg" alt="" className="social-icon" />
+                GitHub
+              </button>
+            </div>
+          </form>
+          <p className="auth-footer">
+            Already have an account?{' '}
+            <Link to="/login" className="auth-link">
+              Log in
+            </Link>
+          </p>
+        </div>
+        <div className="auth-right">
+          <div className="preview-container">
+            <div className="preview-content">
+              <div className="preview-header">
+                <div className="preview-dots">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
+              </div>
+              <div className="preview-body">
+                <div className="preview-sidebar">
+                  <div className="preview-nav">
+                    <div className="preview-nav-item active"></div>
+                    <div className="preview-nav-item"></div>
+                    <div className="preview-nav-item"></div>
+                  </div>
+                </div>
+                <div className="preview-main">
+                  <div className="preview-text">
+                    <div className="preview-line"></div>
+                    <div className="preview-line short"></div>
+                  </div>
+                  <div className="preview-blocks">
+                    <div className="preview-block"></div>
+                    <div className="preview-block"></div>
+                    <div className="preview-block short"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-        </form>
+        </div>
       </div>
     </div>
   );
 };
 
-export default Signup; 
+export default Signup;

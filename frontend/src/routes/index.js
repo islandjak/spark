@@ -14,6 +14,7 @@ import Settings from '../pages/Settings';
 import Login from '../pages/Login';
 import Signup from '../pages/Signup';
 import NotFound from '../pages/NotFound';
+import New from '../pages/New';
 
 // Route guard components
 const PrivateRoute = ({ children }) => {
@@ -34,7 +35,7 @@ const routes = [
     children: [
       { path: '/', element: <Home /> },
       {
-        path: '/dashboard',
+        path: 'dashboard',
         element: (
           <PrivateRoute>
             <Dashboard />
@@ -42,7 +43,15 @@ const routes = [
         ),
       },
       {
-        path: '/profile',
+        path: 'new',
+        element: (
+          <PrivateRoute>
+            <New />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: 'profile',
         element: (
           <PrivateRoute>
             <Profile />
@@ -50,7 +59,7 @@ const routes = [
         ),
       },
       {
-        path: '/settings',
+        path: 'settings',
         element: (
           <PrivateRoute>
             <Settings />
@@ -64,7 +73,7 @@ const routes = [
     element: <AuthLayout />,
     children: [
       {
-        path: '/login',
+        path: 'login',
         element: (
           <PublicRoute>
             <Login />
@@ -72,7 +81,7 @@ const routes = [
         ),
       },
       {
-        path: '/signup',
+        path: 'signup',
         element: (
           <PublicRoute>
             <Signup />
@@ -84,4 +93,4 @@ const routes = [
   { path: '*', element: <NotFound /> },
 ];
 
-export default routes; 
+export default routes;

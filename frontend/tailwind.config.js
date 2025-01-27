@@ -2,10 +2,21 @@
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
-    "./public/index.html"
   ],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        primary: '#0E1525',
+        secondary: '#2563eb',
+        success: '#10B981',
+        danger: '#EF4444',
+        warning: '#F59E0B',
+        info: '#3B82F6',
+      },
+      fontFamily: {
+        'sans': ['SF Pro Display', 'system-ui', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }
